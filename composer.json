@@ -1,0 +1,19 @@
+{
+  "name": "receiveit/debtors",
+  "description": "Project Receiveit",
+  "authors": [
+    {
+      "name": "vinicius",
+      "email": "cvmm321@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "receiveit\\": "src/"
+    }
+  },
+  "require": {
+    "ext-json": "*",
+    "ext-curl": "*"
+  }
+}
