@@ -77,6 +77,41 @@ class Debtor
     }
 
     /**
+     * Create Debtor object from array
+     * @param array $aDados
+     * @return Debtor
+     */
+    public static function createFromArray(array $aDados): Debtor
+    {
+        $oDebtor = new Debtor();
+
+        $oDebtor->setId($aDados['dbr_id']);
+        $oDebtor->setName($aDados['dbr_name']);
+        $oDebtor->setEmail($aDados['dbr_email']);
+        $oDebtor->setCpfCnpj($aDados['dbr_cpf_cnpj']);
+        $oDebtor->setAddress($aDados['dbr_address']);
+        $oDebtor->setNumber($aDados['dbr_number']);
+        $oDebtor->setNeighborhood($aDados['dbr_neighborhood']);
+        $oDebtor->setCity($aDados['dbr_city']);
+        $oDebtor->setState($aDados['dbr_state']);
+
+        if (!empty($aDados['dbr_birthdate'])) {
+            $oBirthdate = DateTimeImmutable::createFromFormat('Y-m-d', $aDados['dbr_birthdate']);
+            $oDebtor->setBirthdate($oBirthdate);
+        }
+
+        if (!empty($aDados['dbr_phone_number'])) {
+            $oDebtor->setPhoneNumber($aDados['dbr_phone_number']);
+        }
+
+        if (!empty($aDados['dbr_complement'])) {
+            $oDebtor->setComplement($aDados['dbr_complement']);
+        }
+
+        return $oDebtor;
+    }
+
+    /**
      * @return bool
      */
     public function isActive(): bool
