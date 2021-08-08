@@ -130,10 +130,10 @@ class Debtor
         $oDebtor->setName($aDados['name']);
         $oDebtor->setEmail($aDados['email']);
 
-        $sCpfCnpj = Utils::removeCaracther($aDados['cpfcnpj']);
+        $sCpfCnpj = Utils::removeCaracther($aDados['cpf_cnpj']);
         $oDebtor->setCpfCnpj($sCpfCnpj);
 
-        $oBirthdate = DateTimeImmutable::createFromFormat('d/m/Y', $aDados['birthdate']);
+        $oBirthdate = DateTimeImmutable::createFromFormat('Y-m-d', $aDados['birthdate']);
         $oDebtor->setBirthdate($oBirthdate);
 
         $sNumber = Utils::removeCaracther($aDados['phone_number']);
@@ -209,7 +209,7 @@ class Debtor
         if (empty($aDados['email'])) {
             throw new InvalidAttributeException('Email is empty.');
         }
-        if (empty($aDados['cpfcnpj'])) {
+        if (empty($aDados['cpf_cnpj'])) {
             throw new InvalidAttributeException('CPF/CNPJ is empty.');
         }
         if (empty($aDados['birthdate'])) {
