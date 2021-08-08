@@ -112,6 +112,72 @@ class Debtor
     }
 
     /**
+     * Create Debtor objet from request (view)
+     * @param array $aDados
+     * @return Debtor
+     * @throws InvalidAttributeException
+     */
+    public static function createFromRequest(array $aDados)
+    {
+        $oDebtor = new Debtor();
+
+        $oDebtor->setName($aDados['name']);
+        if (empty($aDados['name'])) {
+            throw new InvalidAttributeException('Name is empty.');
+        }
+
+        if (!empty($aDados['email'])) {
+            $oDebtor->setEMail($aDados['email']);
+        }
+
+        if (!empty($aDados['cpfcnpj'])) {
+            $sCpfCnpj = Utils::removeCaracther($aDados['cpfcnpj']);
+            $oDebtor->setCpfCnpj($sCpfCnpj);
+        }
+
+        if (!empty($aDados['birthdate'])) {
+            $oBirthdate = DateTimeImmutable::createFromFormat('d/m/Y', $aDados['birthdate']);
+            $oDebtor->setBirthdate($oBirthdate);
+        }
+
+        if (!empty($aDados['phone_number'])) {
+            $sNumber = Utils::removeCaracther($aDados['phone_number']);
+            $oDebtor->setPhoneNumber($sNumber);
+        }
+
+        if (!empty($aDados['zipcode'])) {
+            $sZipCode = Utils::removeCaracther($aDados['zipcode']);
+            $oDebtor->setZipcode($sZipCode);
+        }
+
+        if (!empty($aDados['address'])) {
+            $oDebtor->setAddress($aDados['address']);
+        }
+
+        if (!empty($aDados['number'])) {
+            $oDebtor->setNumber($aDados['number']);
+        }
+
+        if (!empty($aDados['complement'])) {
+            $oDebtor->setComplement($aDados['complement']);
+        }
+
+        if (!empty($aDados['neighborhood'])) {
+            $oDebtor->setNeighborhood($aDados['neighborhood']);
+        }
+
+        if (!empty($aDados['city'])) {
+            $oDebtor->setCity($aDados['city']);
+        }
+
+        if (!empty($aDados['state'])) {
+            $oDebtor->setState($aDados['state']);
+        }
+
+        return $oDebtor;
+    }
+
+    /**
      * @return bool
      */
     public function isActive(): bool
