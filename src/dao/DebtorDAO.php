@@ -52,4 +52,38 @@ class DebtorDAO
         return Debtor::createFromArray($aDebtor);
     }
 
+    /**
+     * Save debtor data in database
+     * @param Debtor $oDebtor
+     */
+    public function save(Debtor $oDebtor): void {
+        $sSql = "INSERT INTO dbr_debtor(dbr_name, dbr_email, dbr_cpf_cnpj, dbr_birthdate, dbr_phone_number, dbr_zipcode,
+                       dbr_address, dbr_number, dbr_complement, dbr_neighborhood, dbr_city, dbr_state, dbr_status,
+                       dbr_active, dbr_created)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+
+        $oDebtor->setCreated(new DateTimeImmutable('NOW'));
+        $oDebtor->setActive(TrueOrFalse::TRUE);
+
+        $aDebtor = $oDebtor->toArray();
+
+        try {
+            $oConnection = Connection::getConnection();
+            $oConnection->beginTransaction();
+
+            $stmt = $oConnection->prepare($sSql);
+            if (!$stmt) {
+                throw new PDOException("Error to prepare query string.");
+            }
+
+            $stmt->execute($aDebtor);
+            $oConnection->commit();
+        } catch (\PDOException $e) {
+            $oConnection->rollBack();
+            throw new PDOException("Error to save debtor.");
+        }
+
+        $oDebtor->setId($oConnection->lastInsertId());
+    }
+
 }
