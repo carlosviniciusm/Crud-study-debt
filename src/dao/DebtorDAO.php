@@ -100,7 +100,7 @@ class DebtorDAO
 
             $stmt = $oConnection->prepare($sSql);
             if (!$stmt) {
-                return false;
+                throw new PDOException("Error to prepare query string.");
             }
 
             $stmt->execute([$oDebtor->getId()]);
