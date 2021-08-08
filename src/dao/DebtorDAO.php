@@ -78,9 +78,9 @@ class DebtorDAO
 
             $stmt->execute($aDebtor);
             $oConnection->commit();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             $oConnection->rollBack();
-            throw new PDOException("Error to save debtor.");
+            throw new PDOException("Error to save debtor. " . $e->getMessage());
         }
 
         $oDebtor->setId($oConnection->lastInsertId());
