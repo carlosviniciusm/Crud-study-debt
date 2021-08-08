@@ -59,6 +59,15 @@ class Debtor
     }
 
     /**
+     * Register debtor's data in database
+     */
+    public function save(): void
+    {
+        $oDebtorDAO = new DebtorDAO();
+        $oDebtorDAO->save($this);
+    }
+
+    /**
      * @return bool
      */
     public function isActive(): bool
