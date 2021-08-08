@@ -55,7 +55,7 @@ class Debtor
     public function __construct()
     {
         $this->iStatus = CreditorDebtor::DEBTOR;
-        $this->isActive = TrueOrFalse::TRUE;
+        $this->bActive = TrueOrFalse::TRUE;
     }
 
     /**
@@ -88,12 +88,16 @@ class Debtor
         $oDebtor->setId($aDados['dbr_id']);
         $oDebtor->setName($aDados['dbr_name']);
         $oDebtor->setEmail($aDados['dbr_email']);
+        $oDebtor->setZipcode($aDados['dbr_zipcode']);
         $oDebtor->setCpfCnpj($aDados['dbr_cpf_cnpj']);
         $oDebtor->setAddress($aDados['dbr_address']);
         $oDebtor->setNumber($aDados['dbr_number']);
         $oDebtor->setNeighborhood($aDados['dbr_neighborhood']);
         $oDebtor->setCity($aDados['dbr_city']);
         $oDebtor->setState($aDados['dbr_state']);
+
+        $oCreated = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $aDados['dbr_created']);
+        $oDebtor->setCreated($oCreated);
 
         if (!empty($aDados['dbr_birthdate'])) {
             $oBirthdate = DateTimeImmutable::createFromFormat('Y-m-d', $aDados['dbr_birthdate']);
