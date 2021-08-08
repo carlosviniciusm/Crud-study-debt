@@ -30,7 +30,7 @@ class Router
             $this->sAction = !empty($_REQUEST['action']) ? $_REQUEST['action'] : "index" ;
 
             if (method_exists($sController, $this->sAction)) {
-                $this->aData['request'] = $_REQUEST;
+                $this->aData = $_REQUEST;
             }
         }
     }
@@ -42,6 +42,15 @@ class Router
     {
         $sAction = $this->sAction;
         $this->oEntity->$sAction($this->aData);
+    }
+
+    /**
+     * @param string $sPath
+     */
+    public static function redirect(string $sPath)
+    {
+        header("Location: ".$sPath);
+        die();
     }
 
 }
