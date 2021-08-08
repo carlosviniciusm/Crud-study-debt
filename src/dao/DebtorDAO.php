@@ -86,4 +86,29 @@ class DebtorDAO
         $oDebtor->setId($oConnection->lastInsertId());
     }
 
+    /**
+     * Delete debtor registry from database
+     * @param Debtor $oDebtor
+     * @return false
+     */
+    public function delete(Debtor $oDebtor): void {
+        $sSql = "DELETE FROM dbr_debtor WHERE dbr_id = ?";
+
+        try {
+            $oConnection = Connection::getConnection();
+            $oConnection->beginTransaction();
+
+            $stmt = $oConnection->prepare($sSql);
+            if (!$stmt) {
+                return false;
+            }
+
+            $stmt->execute([$oDebtor->getId()]);
+
+            $oConnection->commit();
+        } catch (PDOException $e) {
+            $oConnection->rollBack();
+            throw new PDOException("Error deleting debtor.");
+        }
+    }
 }
