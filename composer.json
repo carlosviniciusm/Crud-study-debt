@@ -9,11 +9,17 @@
   ],
   "autoload": {
     "psr-4": {
-      "receiveit\\": "src/"
+      "src\\": "src/",
+      "framework\\": "framework/"
     }
   },
   "require": {
     "ext-json": "*",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "ext-pdo": "*",
+    "ext-http": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
   }
 }
