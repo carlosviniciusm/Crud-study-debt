@@ -125,42 +125,26 @@ class Debtor
     {
         $oDebtor = new Debtor();
 
+        $oDebtor->validate($aDados);
+
         $oDebtor->setName($aDados['name']);
-        if (empty($aDados['name'])) {
-            throw new InvalidAttributeException('Name is empty.');
-        }
+        $oDebtor->setEmail($aDados['email']);
 
-        if (!empty($aDados['email'])) {
-            $oDebtor->setEMail($aDados['email']);
-        }
+        $sCpfCnpj = Utils::removeCaracther($aDados['cpfcnpj']);
+        $oDebtor->setCpfCnpj($sCpfCnpj);
 
-        if (!empty($aDados['cpfcnpj'])) {
-            $sCpfCnpj = Utils::removeCaracther($aDados['cpfcnpj']);
-            $oDebtor->setCpfCnpj($sCpfCnpj);
-        }
+        $oBirthdate = DateTimeImmutable::createFromFormat('d/m/Y', $aDados['birthdate']);
+        $oDebtor->setBirthdate($oBirthdate);
 
-        if (!empty($aDados['birthdate'])) {
-            $oBirthdate = DateTimeImmutable::createFromFormat('d/m/Y', $aDados['birthdate']);
-            $oDebtor->setBirthdate($oBirthdate);
-        }
+        $sNumber = Utils::removeCaracther($aDados['phone_number']);
+        $oDebtor->setPhoneNumber($sNumber);
 
-        if (!empty($aDados['phone_number'])) {
-            $sNumber = Utils::removeCaracther($aDados['phone_number']);
-            $oDebtor->setPhoneNumber($sNumber);
-        }
+        $sZipCode = Utils::removeCaracther($aDados['zipcode']);
+        $oDebtor->setZipcode($sZipCode);
 
-        if (!empty($aDados['zipcode'])) {
-            $sZipCode = Utils::removeCaracther($aDados['zipcode']);
-            $oDebtor->setZipcode($sZipCode);
-        }
+        $oDebtor->setAddress($aDados['address']);
 
-        if (!empty($aDados['address'])) {
-            $oDebtor->setAddress($aDados['address']);
-        }
-
-        if (!empty($aDados['number'])) {
-            $oDebtor->setNumber($aDados['number']);
-        }
+        $oDebtor->setNumber($aDados['number']);
 
         if (!empty($aDados['complement'])) {
             $oDebtor->setComplement($aDados['complement']);
@@ -210,6 +194,48 @@ class Debtor
         }
 
         return $aDebtor;
+    }
+
+    /**
+     * Validate filling in the fields
+     * @param array $aDados
+     * @throws InvalidAttributeException
+     */
+    public function validate(array $aDados)
+    {
+        if (empty($aDados['name'])) {
+            throw new InvalidAttributeException('Name is empty.');
+        }
+        if (empty($aDados['email'])) {
+            throw new InvalidAttributeException('Email is empty.');
+        }
+        if (empty($aDados['cpfcnpj'])) {
+            throw new InvalidAttributeException('CPF/CNPJ is empty.');
+        }
+        if (empty($aDados['birthdate'])) {
+            throw new InvalidAttributeException('Birthdate is empty.');
+        }
+        if (empty($aDados['phone_number'])) {
+            throw new InvalidAttributeException('Phone number is empty.');
+        }
+        if (empty($aDados['zipcode'])) {
+            throw new InvalidAttributeException('Zipcode number is empty.');
+        }
+        if (empty($aDados['address'])) {
+            throw new InvalidAttributeException('Address number is empty.');
+        }
+        if (empty($aDados['number'])) {
+            throw new InvalidAttributeException('Number is empty.');
+        }
+        if (empty($aDados['neighborhood'])) {
+            throw new InvalidAttributeException('Neighborhood is empty.');
+        }
+        if (empty($aDados['city'])) {
+            throw new InvalidAttributeException('Neighborhood is empty.');
+        }
+        if (empty($aDados['state'])) {
+            throw new InvalidAttributeException('Neighborhood is empty.');
+        }
     }
 
     /**
