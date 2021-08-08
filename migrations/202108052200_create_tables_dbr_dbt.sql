@@ -3,7 +3,7 @@ CREATE TABLE receiveit.dbr_debtor
     dbr_id INT PRIMARY KEY AUTO_INCREMENT,
     dbr_name VARCHAR(255) NOT NULL,
     dbr_email VARCHAR(100) NOT NULL,
-    dbr_cpf_cnpj VARCHAR(14) NOT NULL,
+    dbr_cpf_cnpj VARCHAR(14) NOT NULL UNIQUE,
     dbr_birthdate DATE NULL,
     dbr_phone_number VARCHAR(20) NULL,
     dbr_zipcode VARCHAR(10) NOT NULL,
