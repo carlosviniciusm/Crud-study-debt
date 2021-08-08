@@ -178,6 +178,37 @@ class Debtor
     }
 
     /**
+     * Create array using Debtor object data
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $aDebtor = [
+            $this->getName(),
+            $this->getEmail(),
+            $this->getCpfCnpj(),
+            $this->getBirthdate()->format('Y-m-d'),
+            $this->getPhoneNumber(),
+            $this->getZipcode(),
+            $this->getAddress(),
+            $this->getNumber(),
+            $this->getComplement(),
+            $this->getNeighborhood(),
+            $this->getCity(),
+            $this->getState(),
+            $this->getStatus(),
+            $this->isActive(),
+            $this->getCreated()->format('Y-m-d H:i:s')
+        ];
+
+        if (!is_null($this->getUpdated())) {
+            $aDebtor[] = $this->getUpdated()->format('Y-m-d H:i:s');
+        }
+
+        return $aDebtor;
+    }
+
+    /**
      * @return bool
      */
     public function isActive(): bool
