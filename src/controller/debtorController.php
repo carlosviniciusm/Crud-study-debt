@@ -31,4 +31,20 @@ class debtorController
     public function index(array $aDados): void {
         include_once "src/view/debtor/list.php";
     }
+
+    /**
+     * Save debtor registry
+     * @param array $aDados
+     */
+    public function save(array $aDados): void
+    {
+        try {
+            $oDebtor = Debtor::createFromRequest($aDados);
+            $oDebtor->save();
+        } catch (Exception $e) {
+            echo 'Erro ao salvar';
+        }
+
+    }
+
 }
