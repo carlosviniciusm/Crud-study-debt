@@ -44,7 +44,14 @@ class debtorController
         } catch (Exception $e) {
             echo 'Erro ao salvar';
         }
+    }
 
+    /**
+     * Open view to register debtor
+     */
+    public function register()
+    {
+        include_once "src/view/debtor/register.php";
     }
 
 }
