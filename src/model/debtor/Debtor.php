@@ -68,6 +68,15 @@ class Debtor
     }
 
     /**
+     * Delete debtor's data from database
+     */
+    public function delete(): void
+    {
+        $oDebtorDAO = new DebtorDAO();
+        $oDebtorDAO->delete($this);
+    }
+
+    /**
      * @return bool
      */
     public function isActive(): bool
