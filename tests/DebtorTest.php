@@ -39,4 +39,19 @@ class DebtorTest extends TestCase
         $this->assertTrue(!is_null($oDebtor->getId()));
     }
 
+    /**
+     * Test delete fake debtor
+     */
+    public function testDebtorDelete()
+    {
+        $oDebtorDAO = new DebtorDAO();
+        $oDebtor = $oDebtorDAO->findByCpfCnpj('05868382528');
+
+        $this->assertTrue(!is_null($oDebtor->getId()));
+
+        $oDebtor->delete();
+
+        $oDebtor = $oDebtorDAO->findByCpfCnpj('05868382528');
+        $this->assertFalse(!is_null($oDebtor->getId()));
+    }
 }
