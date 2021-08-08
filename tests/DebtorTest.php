@@ -19,7 +19,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm321@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpfcnpj' => '01234567890',
             'birthdate' => '12/01/1994',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -35,7 +35,7 @@ class DebtorTest extends TestCase
         $oDebtor->save();
 
         $oDebtorDAO = new DebtorDAO();
-        $oDebtor = $oDebtorDAO->findByCpfCnpj('05868382528');
+        $oDebtor = $oDebtorDAO->findByCpfCnpj('01234567890');
         $this->assertTrue(!is_null($oDebtor->getId()));
     }
 
@@ -45,13 +45,13 @@ class DebtorTest extends TestCase
     public function testDebtorDelete()
     {
         $oDebtorDAO = new DebtorDAO();
-        $oDebtor = $oDebtorDAO->findByCpfCnpj('05868382528');
+        $oDebtor = $oDebtorDAO->findByCpfCnpj('01234567890');
 
         $this->assertTrue(!is_null($oDebtor->getId()));
 
         $oDebtor->delete();
 
-        $oDebtor = $oDebtorDAO->findByCpfCnpj('05868382528');
+        $oDebtor = $oDebtorDAO->findByCpfCnpj('01234567890');
         $this->assertFalse(!is_null($oDebtor->getId()));
     }
 }
