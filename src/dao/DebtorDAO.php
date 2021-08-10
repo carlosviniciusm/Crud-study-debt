@@ -18,6 +18,34 @@ class DebtorDAO
 {
 
     /**
+     * @param int $iId
+     * @return Debtor
+     */
+    public function find(int $iId): Debtor
+    {
+        $sSql = "SELECT * FROM dbr_debtor WHERE dbr_id = ?";
+
+        try {
+            $stmt = $this->getStatement($sSql);
+
+            $stmt->bindParam(1, $iId);
+
+            $stmt->execute();
+            $aDebtor = $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new RuntimeException("Error when consulting debtor.", 500, $e);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+
+        if (!$aDebtor) {
+            return new Debtor();
+        }
+
+        return Debtor::createFromArray($aDebtor);
+    }
+
+    /**
      * Find debtor using cpf or cnpj
      * @param string $sCpfCnpj
      * @return Debtor
@@ -27,13 +55,7 @@ class DebtorDAO
         $sSql = "SELECT * FROM dbr_debtor WHERE dbr_cpf_cnpj = ?";
 
         try {
-            $oConnection = Connection::getConnection();
-
-            $stmt = $oConnection->prepare($sSql);
-
-            if (!$stmt) {
-                throw new PDOException();
-            }
+            $stmt = $this->getStatement($sSql);
 
             $stmt->bindParam(1, $sCpfCnpj);
 
@@ -110,5 +132,21 @@ class DebtorDAO
             $oConnection->rollBack();
             throw new PDOException("Error deleting debtor.");
         }
+    }
+
+    /**
+     * @param string $sSql
+     * @return \PDOStatement
+     */
+    public function getStatement(string $sSql): \PDOStatement
+    {
+        $oConnection = Connection::getConnection();
+
+        $stmt = $oConnection->prepare($sSql);
+
+        if (!$stmt) {
+            throw new PDOException();
+        }
+        return $stmt;
     }
 }
