@@ -121,6 +121,11 @@ class Debtor
             $oDebtor->setComplement($aDados['dbr_complement']);
         }
 
+        if (!empty($aDados['dbr_updated'])) {
+            $oUpdated = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $aDados['dbr_updated']);
+            $oDebtor->setUpdated($oUpdated);
+        }
+
         return $oDebtor;
     }
 
@@ -142,7 +147,7 @@ class Debtor
         $sCpfCnpj = Utils::removeCaracther($aDados['cpf_cnpj']);
         $oDebtor->setCpfCnpj($sCpfCnpj);
 
-        $oBirthdate = DateTimeImmutable::createFromFormat('Y-m-d', $aDados['birthdate']);
+        $oBirthdate = DateTimeImmutable::createFromFormat('d/m/Y', $aDados['birthdate']);
         $oDebtor->setBirthdate($oBirthdate);
 
         $sNumber = Utils::removeCaracther($aDados['phone_number']);
