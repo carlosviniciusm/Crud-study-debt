@@ -2,6 +2,8 @@
 namespace src\controller;
 
 use Exception;
+use framework\exceptions\InvalidAttributeException;
+use src\dao\DebtorDAO;
 use src\model\debtor\Debtor;
 
 /**
@@ -28,7 +30,7 @@ class debtorController
      * @author Carlos Vinicius cvmm321@gmail.com
      * @since 1.0.0
      */
-    public function index(array $aDados): void {
+    public function list(array $aDados): void {
         include_once "src/view/debtor/list.php";
     }
 
@@ -43,6 +45,24 @@ class debtorController
             $oDebtor->save();
         } catch (Exception $e) {
             echo 'Erro ao salvar';
+        }
+    }
+
+    /**
+     * Update debtor registry
+     * @param array $aDados
+     */
+    public function update(array $aDados): void
+    {
+        try {
+            if (empty($aDados['id'])) {
+                throw new InvalidAttributeException('Debtor\'s id is empty.');
+            }
+
+            $oDebtor = (new DebtorDAO())->find($aDados['id']);
+            $oDebtor->update($aDados);
+        } catch (Exception $e) {
+            echo 'Erro ao salvar.'.$e->getMessage();
         }
     }
 
