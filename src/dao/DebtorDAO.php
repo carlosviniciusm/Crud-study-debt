@@ -109,6 +109,50 @@ class DebtorDAO
     }
 
     /**
+     * Update debtor's data in database
+     * @param Debtor $oDebtor
+     */
+    public function update(Debtor $oDebtor): void {
+        $sSql = "UPDATE dbr_debtor 
+                    SET dbr_name = ?,
+                    dbr_email = ?,
+                    dbr_cpf_cnpj = ?,
+                    dbr_birthdate = ?,
+                    dbr_phone_number = ?,
+                    dbr_zipcode = ?,
+                    dbr_address = ?,
+                    dbr_number = ?,
+                    dbr_complement = ?,
+                    dbr_neighborhood = ?,
+                    dbr_city = ?,
+                    dbr_state = ?,
+                    dbr_status = ?,
+                    dbr_active = ?,
+                    dbr_updated = ?
+                WHERE dbr_id = ?";
+
+        $aDebtor = $oDebtor->toArray();
+        array_pop($aDebtor);
+        $aDebtor[] = $oDebtor->getId();
+
+        try {
+            $oConnection = Connection::getConnection();
+            $oConnection->beginTransaction();
+
+            $stmt = $oConnection->prepare($sSql);
+            if (!$stmt) {
+                throw new PDOException("Error to prepare query string.");
+            }
+
+            $stmt->execute($aDebtor);
+            $oConnection->commit();
+        } catch (PDOException $e) {
+            $oConnection->rollBack();
+            throw new PDOException("Error to update debtor. " . $e->getMessage());
+        }
+    }
+
+    /**
      * Delete debtor registry from database
      * @param Debtor $oDebtor
      * @return false
