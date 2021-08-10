@@ -68,6 +68,15 @@ class Debtor
     }
 
     /**
+     * Update debtor's data in database
+     */
+    public function update(array $aDadosUpdate): void
+    {
+        $this->setAttributes($aDadosUpdate);
+        (new DebtorDAO())->update($this);
+    }
+
+    /**
      * Delete debtor's data from database
      */
     public function delete(): void
@@ -493,5 +502,59 @@ class Debtor
     public function setCreated(\DateTimeImmutable $oCreated): void
     {
         $this->oCreated = $oCreated;
+    }
+
+    /**
+     * @param DateTimeImmutable $oUpdated
+     */
+    public function setUpdated(DateTimeImmutable $oUpdated): void
+    {
+        $this->oUpdated = $oUpdated;
+    }
+
+    /**
+     * @param array $aDadosUpdate
+     */
+    public function setAttributes(array $aDadosUpdate): void
+    {
+        if (!empty($aDadosUpdate['name'])) {
+            $this->setName($aDadosUpdate['name']);
+        }
+        if (!empty($aDadosUpdate['email'])) {
+            $this->setEmail($aDadosUpdate['email']);
+        }
+        if (!empty($aDadosUpdate['cpf_cnpj'])) {
+            $this->setCpfCnpj($aDadosUpdate['cpf_cnpj']);
+        }
+        if (!empty($aDadosUpdate['birthdate'])) {
+            $oBirthdate = DateTimeImmutable::createFromFormat('d/m/Y', $aDadosUpdate['birthdate']);
+            $this->setBirthdate($oBirthdate);
+        }
+        if (!empty($aDadosUpdate['phone_number'])) {
+            $this->setPhoneNumber($aDadosUpdate['phone_number']);
+        }
+        if (!empty($aDadosUpdate['zipcode'])) {
+            $this->setZipcode($aDadosUpdate['zipcode']);
+        }
+        if (!empty($aDadosUpdate['address'])) {
+            $this->setAddress($aDadosUpdate['address']);
+        }
+        if (!empty($aDadosUpdate['number'])) {
+            $this->setNumber($aDadosUpdate['number']);
+        }
+        if (!empty($aDadosUpdate['complement'])) {
+            $this->setcomplement($aDadosUpdate['complement']);
+        }
+        if (!empty($aDadosUpdate['neighborhood'])) {
+            $this->setNeighborhood($aDadosUpdate['neighborhood']);
+        }
+        if (!empty($aDadosUpdate['city'])) {
+            $this->setCity($aDadosUpdate['city']);
+        }
+        if (!empty($aDadosUpdate['state'])) {
+            $this->setState($aDadosUpdate['state']);
+        }
+
+        $this->setUpdated(new DateTimeImmutable('NOW'));
     }
 }
