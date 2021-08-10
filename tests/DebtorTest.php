@@ -48,7 +48,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Teste',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '01234567890',
+            'cpf_cnpj' => '01234567890',
             'birthdate' => '15/01/1996',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -93,7 +93,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => '',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '15/01/1996',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -118,7 +118,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => '',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '15/01/1996',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -143,7 +143,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '',
+            'cpf_cnpj' => '',
             'birthdate' => '15/01/1996',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -168,7 +168,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -193,7 +193,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '12/01/1994',
             'phone_number' => '',
             'zipcode' => '99999-999',
@@ -218,7 +218,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '12/01/1994',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '',
@@ -243,7 +243,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '12/01/1994',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -268,7 +268,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '12/01/1994',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -293,7 +293,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '12/01/1994',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -318,7 +318,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '12/01/1994',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
@@ -343,7 +343,7 @@ class DebtorTest extends TestCase
         $aDados = [
             'name' => 'Carlos Vinicius',
             'email' => 'cvmm121@gmail.com',
-            'cpfcnpj' => '1234567890',
+            'cpf_cnpj' => '1234567890',
             'birthdate' => '12/01/1994',
             'phone_number' => '(79) 9 9999-9999',
             'zipcode' => '99999-999',
