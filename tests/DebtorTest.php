@@ -344,6 +344,53 @@ class DebtorTest extends TestCase
     }
 
     /**
+     * Test update debtor's data
+     * @throws InvalidAttributeException
+     */
+    public function testDebtorUpdate()
+    {
+        $this->saveDebtor();
+
+        $oDebtor = (new DebtorDAO())->findByCpfCnpj('01234567890');
+        $this->assertTrue(!is_null($oDebtor->getId()));
+
+        $aDadosUpdate = [
+            'id' => $oDebtor->getId(),
+            'name' => 'Carlos Vinicius Atualização',
+            'email' => 'cvmm321atualizado@gmail.com',
+            'cpf_cnpj' => '14725836905',
+            'birthdate' => '01/01/2000',
+            'phone_number' => '(79) 9 8888-8888',
+            'zipcode' => '11111-111',
+            'address' => 'Rua Atualização',
+            'number' => '005544',
+            'complement' => 'Conjunto Atualização',
+            'neighborhood' => 'Bairro Atualização',
+            'city' => 'Maceió',
+            'state' => 'AL'
+        ];
+
+        $oDebtorFound = (new DebtorDAO())->find($aDadosUpdate['id']);
+        $oDebtorFound->update($aDadosUpdate);
+
+        $oDebtorUpdated = (new DebtorDAO())->find($aDadosUpdate['id']);
+        $this->assertTrue($oDebtorUpdated->getName() == 'Carlos Vinicius Atualização');
+        $this->assertTrue($oDebtorUpdated->getEmail() == 'cvmm321atualizado@gmail.com');
+        $this->assertTrue($oDebtorUpdated->getCpfCnpj() == '14725836905');
+        $this->assertTrue($oDebtorUpdated->getBirthdate()->format('d/m/Y') == '01/01/2000');
+        $this->assertTrue($oDebtorUpdated->getPhoneNumber() == '(79) 9 8888-8888');
+        $this->assertTrue($oDebtorUpdated->getZipcode() == '11111-111');
+        $this->assertTrue($oDebtorUpdated->getAddress() == 'Rua Atualização');
+        $this->assertTrue($oDebtorUpdated->getNumber() == '005544');
+        $this->assertTrue($oDebtorUpdated->getComplement() == 'Conjunto Atualização');
+        $this->assertTrue($oDebtorUpdated->getNeighborhood() == 'Bairro Atualização');
+        $this->assertTrue($oDebtorUpdated->getCity() == 'Maceió');
+        $this->assertTrue($oDebtorUpdated->getState() == 'AL');
+        $this->assertTrue(!is_null($oDebtorUpdated->getUpdated()));
+        $oDebtorUpdated->delete();
+    }
+
+    /**
      * Save debtor registry
      * @return Debtor
      * @throws InvalidAttributeException
