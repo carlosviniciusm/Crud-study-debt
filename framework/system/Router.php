@@ -20,7 +20,7 @@ class Router
      */
     public function init()
     {
-        if (empty($_REQUEST)) {
+        if (empty($_REQUEST['controller'])) {
             $_REQUEST['controller'] = "home";
         }
 
