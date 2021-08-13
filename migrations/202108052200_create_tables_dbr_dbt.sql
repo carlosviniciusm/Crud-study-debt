@@ -24,7 +24,7 @@ CREATE TABLE receiveit.dbt_debt
     dbt_id INT PRIMARY KEY AUTO_INCREMENT,
     dbr_id INT,
     dbt_description VARCHAR(255) NOT NULL,
-    dbt_amount DECIMAL NOT NULL,
+    dbt_amount DECIMAL(6,2) NOT NULL,
     dbt_due_date DATETIME NOT NULL,
     dbt_status CHAR(1) NOT NULL DEFAULT 0,
     dbt_active CHAR(1) NOT NULL DEFAULT 1,
