@@ -32,6 +32,46 @@ class Debt
     /** @var DateTimeImmutable $oUpdated */
     private $oUpdated;
 
+    public static function createFromRequest(array $aDados): Debt
+    {
+        $oDebt = new Debt();
+
+        $oDebt->validate($aDados);
+
+        $oDebt->setDebtorId($aDados['debtor_id']);
+        $oDebt->setDescription($aDados['description']);
+
+        $oDebt->setAmount(floatval($aDados['amount']));
+
+        $oDueDate = DateTimeImmutable::createFromFormat('d/m/Y', $aDados['due_date']);
+        $oDebt->setDueDate($oDueDate);
+
+        $oDebt->setCreated((new DateTimeImmutable('NOW')));
+        $oDebt->setStatus(PaidUnpaid::UNPAID);
+        $oDebt->setActive(TrueOrFalse::TRUE);
+
+        return $oDebt;
+    }
+
+    private function validate(array $aDados)
+    {
+        if (is_null($aDados['debtor_id'])) {
+            throw new InvalidAttributeException('Name is empty.');
+        }
+
+        if (empty($aDados['description'])) {
+            throw new InvalidAttributeException('Name is empty.');
+        }
+
+        if (is_null($aDados['amount'])) {
+            throw new InvalidAttributeException('Name is empty.');
+        }
+
+        if (empty($aDados['due_date'])) {
+            throw new InvalidAttributeException('Name is empty.');
+        }
+    }
+
     /**
      * @return int
      */
