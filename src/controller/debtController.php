@@ -33,6 +33,20 @@ class debtController
     }
 
     /**
+     * Save debt registry
+     * @param array $aDados
+     */
+    public function save(array $aDados): void
+    {
+        try {
+            $oDebtor = Debt::createFromRequest($aDados);
+            $oDebtor->save();
+        } catch (Exception $e) {
+            echo 'Erro ao salvar';
+        }
+    }
+
+    /**
      * Open view to register debt
      */
     public function register()

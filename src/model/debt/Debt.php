@@ -53,6 +53,43 @@ class Debt
         return $oDebt;
     }
 
+    /**
+     * Save debt registry
+     */
+    public function save()
+    {
+        $oDebtorDAO = new DebtDAO();
+        $oDebtorDAO->save($this);
+    }
+
+    /**
+     * Create array based on object data
+     * @return array
+     */
+    public function toArray()
+    {
+        $aDebt = [
+            $this->getDebtorId(),
+            $this->getDescription(),
+            $this->getAmount(),
+            $this->getDueDate()->format('Y-m-d'),
+            $this->getStatus(),
+            $this->getActive(),
+            $this->getCreated()->format('Y-m-d H:i:s')
+        ];
+
+        if (!is_null($this->getUpdated())) {
+            $aDebt[] = $this->getUpdated()->format('Y-m-d H:i:s');
+        }
+
+        return $aDebt;
+    }
+
+    /**
+     * Validate data from request
+     * @param array $aDados
+     * @throws InvalidAttributeException
+     */
     private function validate(array $aDados)
     {
         if (is_null($aDados['debtor_id'])) {

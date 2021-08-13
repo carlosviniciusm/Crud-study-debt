@@ -45,6 +45,38 @@ class DebtDAO
     }
 
     /**
+     * Save debt data in database
+     * @param Debt $oDebt
+     */
+    public function save(Debt $oDebt): void {
+        $sSql = "INSERT INTO dbt_debt(dbr_id, dbt_description, dbt_amount, dbt_due_date, 
+                                        dbt_status, dbt_active, dbt_created) VALUES (?,?,?,?,?,?,?)";
+
+        $oDebt->setCreated(new DateTimeImmutable('NOW'));
+        $oDebt->setActive(TrueOrFalse::TRUE);
+
+        $aDebt = $oDebt->toArray();
+
+        try {
+            $oConnection = Connection::getConnection();
+            $oConnection->beginTransaction();
+
+            $stmt = $oConnection->prepare($sSql);
+            if (!$stmt) {
+                throw new PDOException("Error to prepare query string.");
+            }
+
+            $stmt->execute($aDebt);
+        } catch (PDOException $e) {
+            $oConnection->rollBack();
+            throw new PDOException("Error to save debt. " . $e->getMessage());
+        }
+
+        $oDebt->setId($oConnection->lastInsertId());
+        $oConnection->commit();
+    }
+
+    /**
      * @param string $sSql
      * @return \PDOStatement
      */
