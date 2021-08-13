@@ -32,6 +32,12 @@ class Debt
     /** @var DateTimeImmutable $oUpdated */
     private $oUpdated;
 
+    /**
+     * Create object based on request data
+     * @param array $aDados
+     * @return Debt
+     * @throws InvalidAttributeException
+     */
     public static function createFromRequest(array $aDados): Debt
     {
         $oDebt = new Debt();
@@ -62,8 +68,44 @@ class Debt
         $oDebtorDAO->save($this);
     }
 
+
     /**
-     * Create array based on object data
+     * Update debt's data in database
+     */
+    public function update(array $aDadosUpdate): void
+    {
+        $this->setAttributes($aDadosUpdate);
+        (new DebtDAO())->update($this);
+    }
+
+    /**
+     * Set attributes in Debt's object
+     * @param array $aDados
+     */
+    public function setAttributes(array $aDados)
+    {
+        if (!empty($aDados['description'])) {
+            $this->setDescription($aDados['description']);
+        }
+        if (!empty($aDados['amount'])) {
+            $this->setAmount($aDados['amount']);
+        }
+        if (!empty($aDados['due_date'])) {
+            $oDueDate = DateTimeImmutable::createFromFormat('d/m/Y', $aDados['due_date']);
+            $this->setDueDate($oDueDate);
+        }
+        if (!is_null($aDados['status'])) {
+            $this->setStatus($aDados['status']);
+        }
+        if (!empty($aDados['active'])) {
+            $this->setActive($aDados['active']);
+        }
+    }
+
+
+
+    /**
+     * Create array using data from debt object
      * @return array
      */
     public function toArray()

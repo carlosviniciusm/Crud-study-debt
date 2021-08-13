@@ -77,6 +77,44 @@ class DebtDAO
     }
 
     /**
+     * Update debt's data in database
+     * @param Debt $oDebt
+     */
+    public function update(Debt $oDebt): void {
+        $sSql = "UPDATE dbt_debt 
+                    SET dbr_id = ?,
+                    dbt_description = ?,
+                    dbt_amount = ?,
+                    dbt_due_date = ?,
+                    dbt_status = ?,
+                    dbt_active = ?,
+                    dbt_updated = ?
+                WHERE dbt_id = ?";
+
+        $aDebt = $oDebt->toArray();
+        array_pop($aDebt);
+        $aDebt[] = (new DateTimeImmutable('now'))->format('Y-m-d H:i:s');
+        $aDebt[] = $oDebt->getId();
+
+        try {
+            $oConnection = Connection::getConnection();
+            $oConnection->beginTransaction();
+
+            $stmt = $oConnection->prepare($sSql);
+            if (!$stmt) {
+                throw new PDOException("Error to prepare query string.");
+            }
+
+            $stmt->execute($aDebt);
+            $oConnection->commit();
+        } catch (PDOException $e) {
+            $oConnection->rollBack();
+            throw new PDOException("Error to update debt. " . $e->getMessage());
+        }
+    }
+
+
+    /**
      * @param string $sSql
      * @return \PDOStatement
      */
