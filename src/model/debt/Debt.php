@@ -111,6 +111,44 @@ class Debt
     }
 
     /**
+     * Create debt object based on array
+     * @param array $aDados
+     * @return Debt
+     */
+    public static function createFromArray(array $aDados)
+    {
+        $oDebt = new Debt();
+
+        $oDebt->setId($aDados['dbt_id']);
+        $oDebt->setDescription($aDados['dbt_description']);
+        $oDebt->setDebtorId($aDados['dbr_id']);
+        $oDebt->setAmount($aDados['dbt_amount']);
+
+        if (!empty($aDados['dbt_due_date'])) {
+            $oDueDate = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $aDados['dbt_due_date']);
+            $oDebt->setDueDate($oDueDate);
+        }
+
+        if (!is_null($aDados['dbt_status'])) {
+            $oDebt->setStatus($aDados['dbt_status']);
+        }
+
+        if (!is_null($aDados['dbt_active'])) {
+            $oDebt->setActive($aDados['dbt_active']);
+        }
+
+        $oCreated = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $aDados['dbt_created']);
+        $oDebt->setCreated($oCreated);
+
+        if (!empty($aDados['dbt_updated'])) {
+            $oUpdated = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $aDados['dbt_updated']);
+            $oDebt->setUpdated($oUpdated);
+        }
+
+        return $oDebt;
+    }
+
+    /**
      * Create array using data from debt object
      * @return array
      */
