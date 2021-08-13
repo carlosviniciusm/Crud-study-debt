@@ -113,6 +113,31 @@ class DebtDAO
         }
     }
 
+    /**
+     * Delete debt registry from database
+     * @param Debt $oDebt
+     * @return void
+     */
+    public function delete(Debt $oDebt): void {
+        $sSql = "DELETE FROM dbt_debt WHERE dbt_id = ?";
+
+        try {
+            $oConnection = Connection::getConnection();
+            $oConnection->beginTransaction();
+
+            $stmt = $oConnection->prepare($sSql);
+            if (!$stmt) {
+                throw new PDOException("Error to prepare query string.");
+            }
+
+            $stmt->execute([$oDebt->getId()]);
+
+            $oConnection->commit();
+        } catch (PDOException $e) {
+            $oConnection->rollBack();
+            throw new PDOException("Error deleting debt. " . $e->getMessage());
+        }
+    }
 
     /**
      * @param string $sSql

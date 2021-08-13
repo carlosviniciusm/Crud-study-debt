@@ -68,6 +68,14 @@ class Debt
         $oDebtorDAO->save($this);
     }
 
+    /**
+     * Delete debt's data from database
+     */
+    public function delete(): void
+    {
+        $oDebtorDAO = new DebtDAO();
+        $oDebtorDAO->delete($this);
+    }
 
     /**
      * Update debt's data in database
@@ -101,8 +109,6 @@ class Debt
             $this->setActive($aDados['active']);
         }
     }
-
-
 
     /**
      * Create array using data from debt object
