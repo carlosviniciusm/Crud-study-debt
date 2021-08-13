@@ -42,7 +42,7 @@ class Connection extends PDO
                 die('Error to start connection.');
             }
         } catch (PDOException $e) {
-            echo 'Erro: ' . $e->getMessage();
+            die('Erro: ' . $e->getMessage());
         }
         return self::$oPdo;
     }
