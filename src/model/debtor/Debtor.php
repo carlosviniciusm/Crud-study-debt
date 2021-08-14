@@ -94,34 +94,65 @@ class Debtor
     {
         $oDebtor = new Debtor();
 
-        $oDebtor->setId($aDados['dbr_id']);
-        $oDebtor->setName($aDados['dbr_name']);
-        $oDebtor->setEmail($aDados['dbr_email']);
-        $oDebtor->setZipcode($aDados['dbr_zipcode']);
-        $oDebtor->setCpfCnpj($aDados['dbr_cpf_cnpj']);
-        $oDebtor->setAddress($aDados['dbr_address']);
-        $oDebtor->setNumber($aDados['dbr_number']);
-        $oDebtor->setNeighborhood($aDados['dbr_neighborhood']);
-        $oDebtor->setCity($aDados['dbr_city']);
-        $oDebtor->setState($aDados['dbr_state']);
+        if (isset($aDados['dbr_id'])) {
+            $oDebtor->setId($aDados['dbr_id']);
+        }
 
-        $oCreated = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $aDados['dbr_created']);
-        $oDebtor->setCreated($oCreated);
+        if (isset($aDados['dbr_name'])) {
+            $oDebtor->setName($aDados['dbr_name']);
+        }
 
-        if (!empty($aDados['dbr_birthdate'])) {
+        if (isset($aDados['dbr_email'])) {
+            $oDebtor->setEmail($aDados['dbr_email']);
+        }
+
+        if (isset($aDados['dbr_zipcode'])) {
+            $oDebtor->setZipcode($aDados['dbr_zipcode']);
+        }
+
+        if (isset($aDados['dbr_cpf_cnpj'])) {
+            $oDebtor->setCpfCnpj($aDados['dbr_cpf_cnpj']);
+        }
+
+        if (isset($aDados['dbr_address'])) {
+            $oDebtor->setAddress($aDados['dbr_address']);
+        }
+
+        if (isset($aDados['dbr_number'])) {
+            $oDebtor->setNumber($aDados['dbr_number']);
+        }
+
+        if (isset($aDados['dbr_neighborhood'])) {
+            $oDebtor->setNeighborhood($aDados['dbr_neighborhood']);
+        }
+
+        if (isset($aDados['dbr_city'])) {
+            $oDebtor->setCity($aDados['dbr_city']);
+        }
+
+        if (isset($aDados['dbr_state'])) {
+            $oDebtor->setState($aDados['dbr_state']);
+        }
+
+        if (isset($aDados['dbr_created'])) {
+            $oCreated = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $aDados['dbr_created']);
+            $oDebtor->setCreated($oCreated);
+        }
+
+        if (isset($aDados['dbr_birthdate'])) {
             $oBirthdate = DateTimeImmutable::createFromFormat('Y-m-d', $aDados['dbr_birthdate']);
             $oDebtor->setBirthdate($oBirthdate);
         }
 
-        if (!empty($aDados['dbr_phone_number'])) {
+        if (isset($aDados['dbr_phone_number'])) {
             $oDebtor->setPhoneNumber($aDados['dbr_phone_number']);
         }
 
-        if (!empty($aDados['dbr_complement'])) {
+        if (isset($aDados['dbr_complement'])) {
             $oDebtor->setComplement($aDados['dbr_complement']);
         }
 
-        if (!empty($aDados['dbr_updated'])) {
+        if (isset($aDados['dbr_updated'])) {
             $oUpdated = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $aDados['dbr_updated']);
             $oDebtor->setUpdated($oUpdated);
         }
@@ -186,22 +217,28 @@ class Debtor
     public function toArray(): array
     {
         $aDebtor = [
-            $this->getName(),
-            $this->getEmail(),
-            $this->getCpfCnpj(),
-            $this->getBirthdate()->format('Y-m-d'),
-            $this->getPhoneNumber(),
-            $this->getZipcode(),
-            $this->getAddress(),
-            $this->getNumber(),
-            $this->getComplement(),
-            $this->getNeighborhood(),
-            $this->getCity(),
-            $this->getState(),
-            $this->getStatus(),
-            $this->isActive(),
-            $this->getCreated()->format('Y-m-d H:i:s')
+            $this->sName,
+            $this->sEmail,
+            $this->sCpfCnpj,
+            $this->sPhoneNumber,
+            $this->sZipcode,
+            $this->sAddress,
+            $this->sNumber,
+            $this->sComplement,
+            $this->sNeighborhood,
+            $this->sCity,
+            $this->sState,
+            $this->iStatus,
+            $this->bActive
         ];
+
+        if (!is_null($this->oBirthdate)) {
+            $aDebtor[] = $this->oBirthdate->format('Y-m-d');
+        }
+
+        if (!is_null($this->oCreated)) {
+            $aDebtor[] = $this->oCreated->format('Y-m-d H:i:s');
+        }
 
         if (!is_null($this->getUpdated())) {
             $aDebtor[] = $this->getUpdated()->format('Y-m-d H:i:s');
@@ -218,37 +255,49 @@ class Debtor
     public function validate(array $aDados)
     {
         if (empty($aDados['name'])) {
-            throw new InvalidAttributeException('Name is empty.');
+            throw new InvalidAttributeException('Nome é obrigatório.');
         }
+
         if (empty($aDados['email'])) {
-            throw new InvalidAttributeException('Email is empty.');
+            throw new InvalidAttributeException('E-mail é obrigatório.');
         }
-        if (empty($aDados['cpf_cnpj'])) {
-            throw new InvalidAttributeException('CPF/CNPJ is empty.');
+
+        $sCpfCnpj = Utils::removeCaracther($aDados['cpf_cnpj']);
+        if (empty($sCpfCnpj) || (strlen($sCpfCnpj) < 11 || strlen($sCpfCnpj) > 14)) {
+            throw new InvalidAttributeException('CPF/CNPJ '.$sCpfCnpj.' é inválido.');
         }
+
         if (empty($aDados['birthdate'])) {
-            throw new InvalidAttributeException('Birthdate is empty.');
+            throw new InvalidAttributeException('Data de nascimento é obrigatória.');
         }
+
         if (empty($aDados['phone_number'])) {
-            throw new InvalidAttributeException('Phone number is empty.');
+            throw new InvalidAttributeException('Telefone é obrigatório.');
         }
-        if (empty($aDados['zipcode'])) {
-            throw new InvalidAttributeException('Zipcode number is empty.');
+
+        $sZipcode = Utils::removeCaracther($aDados['zipcode']);
+        if (empty($sZipcode) || strlen($sZipcode) != 8 ) {
+            throw new InvalidAttributeException('CEP'.$sZipcode.' é inválido.');
         }
+
         if (empty($aDados['address'])) {
-            throw new InvalidAttributeException('Address number is empty.');
+            throw new InvalidAttributeException('Endereço é obrigatório.');
         }
+
         if (empty($aDados['number'])) {
-            throw new InvalidAttributeException('Number is empty.');
+            throw new InvalidAttributeException('Número é obrigatório.');
         }
+
         if (empty($aDados['neighborhood'])) {
-            throw new InvalidAttributeException('Neighborhood is empty.');
+            throw new InvalidAttributeException('Bairro é obrigatório.');
         }
+
         if (empty($aDados['city'])) {
-            throw new InvalidAttributeException('Neighborhood is empty.');
+            throw new InvalidAttributeException('Cidade é obrigatória.');
         }
+
         if (empty($aDados['state'])) {
-            throw new InvalidAttributeException('Neighborhood is empty.');
+            throw new InvalidAttributeException('UF é obrigatória.');
         }
     }
 
@@ -561,5 +610,13 @@ class Debtor
         }
 
         $this->setUpdated(new DateTimeImmutable('NOW'));
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasId(): bool
+    {
+        return !is_null($this->iId);
     }
 }
