@@ -587,17 +587,20 @@ class Debtor
             $this->setEmail($aDadosUpdate['email']);
         }
         if (!empty($aDadosUpdate['cpf_cnpj'])) {
-            $this->setCpfCnpj($aDadosUpdate['cpf_cnpj']);
+            $sCpfCnpj = Utils::removeCaracther($aDadosUpdate['cpf_cnpj']);
+            $this->setCpfCnpj($sCpfCnpj);
         }
         if (!empty($aDadosUpdate['birthdate'])) {
             $oBirthdate = DateTimeImmutable::createFromFormat('d/m/Y', $aDadosUpdate['birthdate']);
             $this->setBirthdate($oBirthdate);
         }
         if (!empty($aDadosUpdate['phone_number'])) {
-            $this->setPhoneNumber($aDadosUpdate['phone_number']);
+            $sPhoneNumber = Utils::removeCaracther($aDadosUpdate['phone_number']);
+            $this->setPhoneNumber($sPhoneNumber);
         }
         if (!empty($aDadosUpdate['zipcode'])) {
-            $this->setZipcode($aDadosUpdate['zipcode']);
+            $sZipCode = Utils::removeCaracther($aDadosUpdate['zipcode']);
+            $this->setZipcode($sZipCode);
         }
         if (!empty($aDadosUpdate['address'])) {
             $this->setAddress($aDadosUpdate['address']);

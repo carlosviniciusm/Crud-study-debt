@@ -48,9 +48,9 @@ class debtorController
             $oDebtor = Debtor::createFromRequest($aDados);
             $oDebtor->save();
 
-            $aReturn = ['msg' => 'O cadastro do devedor foi realizado com sucesso!', 'status' => true];
+            $aReturn = ['msg' => 'O cadastro do devedor foi realizado com sucesso!', 'status' => true, 'path' => 'list'];
         } catch (Exception $e) {
-            $aReturn = ['msg' => 'Erro ao salvar o devedor: '.$e->getMessage(), 'status' => false];
+            $aReturn = ['msg' => 'Erro ao salvar o devedor: '.$e->getMessage(), 'status' => false, 'path' => 'register'];
         }
 
         echo json_encode($aReturn);
@@ -69,17 +69,21 @@ class debtorController
 
             $oDebtor = (new DebtorDAO())->find($aDados['id']);
             $oDebtor->update($aDados);
+            $aReturn = ['msg' => 'O registro do devedor foi atualizado com sucesso!', 'status' => true, 'path' => '../list'];
         } catch (Exception $e) {
-            echo 'Erro ao salvar.'.$e->getMessage();
+            $aReturn = ['msg' => 'Erro ao atualizar o registro: '.$e->getMessage(), 'status' => false, 'path' => '../register'];
         }
+
+        echo json_encode($aReturn);
     }
 
     /**
      * Open view to register debtor
      */
-    public function register()
+    public function register($a)
     {
-        include_once "src/view/debtor/register.php";
+        $oDebtor = new Debtor();
+        include_once "src/view/debtor/form.php";
     }
 
     /**
@@ -97,6 +101,12 @@ class debtorController
         }
 
         echo json_encode($aReturn);
+    }
+
+    public function edit(array $aDados)
+    {
+        $oDebtor = (new DebtorDAO())->find($aDados['id']);
+        include_once "src/view/debtor/form.php";
     }
 
 }

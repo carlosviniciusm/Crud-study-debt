@@ -39,7 +39,7 @@ include_once 'src/view/home/header.php';
                 echo "<td>{$oDebt->getDueDate()->format('d/m/Y')}</td>";
                 echo "<td>{$sStatus}</td>";
                 echo "<td>";
-                echo "<a href=''><i title='Editar devedor' class='fa fa-edit' id='debtor_edit'></i></a>";
+                echo "<a href=''><i title='Editar devedor' class='fa fa-edit' id='debt_edit'></i></a>";
                 echo "<span style='color: white'> * </span>";
                 echo "<a href='#' id='debt_delete' data-id='{$oDebt->getId()}'><i class='fa fa-trash'></i></a></td>";
                 echo "</tr></div>";
