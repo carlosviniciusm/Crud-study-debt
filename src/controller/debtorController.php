@@ -3,6 +3,7 @@ namespace src\controller;
 
 use Exception;
 use framework\exceptions\InvalidAttributeException;
+use framework\utils\Utils;
 use src\dao\DebtorDAO;
 use src\model\debtor\Debtor;
 
@@ -16,14 +17,6 @@ class debtorController
     private $aDados;
 
     /**
-     * debtorController constructor.
-     * @param $aDados
-     */
-    public function __construct($aDados) {
-        $this->aDados = $aDados;
-    }
-
-    /**
      * Home page
      * @param array $aDados
      * @return void
@@ -31,6 +24,8 @@ class debtorController
      * @since 1.0.0
      */
     public function list(array $aDados): void {
+        $loDebtor = DebtorDAO::findAllActive();
+
         include_once "src/view/debtor/list.php";
     }
 
@@ -38,14 +33,27 @@ class debtorController
      * Save debtor registry
      * @param array $aDados
      */
-    public function save(array $aDados): void
+    public function save($aDados): void
     {
         try {
+            if (isset($aDados['cpf_cnpj'])) {
+                $sCpfCnpj = Utils::removeCaracther($aDados['cpf_cnpj']);
+                $oDebtor = (new DebtorDAO())->findByCpfCnpj($sCpfCnpj);
+                if ($oDebtor->hasId()) {
+                    echo json_encode(['msg' => 'Esse CPF/CNPJ já está cadastrado em nossa base!', 'status' => false]);
+                    die();
+                }
+            }
+
             $oDebtor = Debtor::createFromRequest($aDados);
             $oDebtor->save();
+
+            $aReturn = ['msg' => 'O cadastro do devedor foi realizado com sucesso!', 'status' => true];
         } catch (Exception $e) {
-            echo 'Erro ao salvar';
+            $aReturn = ['msg' => 'Erro ao salvar o devedor: '.$e->getMessage(), 'status' => false];
         }
+
+        echo json_encode($aReturn);
     }
 
     /**
