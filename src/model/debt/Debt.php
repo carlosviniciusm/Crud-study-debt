@@ -46,7 +46,7 @@ class Debt
 
         $oDebt->validate($aDados);
 
-        $oDebt->setDebtorId(intval($aDados['debtor']));
+        $oDebt->setDebtorId(intval($aDados['debtor_id']));
         $oDebt->setDescription($aDados['description']);
 
         $oDebt->setAmount(floatval($aDados['amount']));
@@ -55,7 +55,7 @@ class Debt
         $oDebt->setDueDate($oDueDate);
 
         $oDebt->setCreated((new DateTimeImmutable('NOW')));
-        $oDebt->setStatus($aDados['status']);
+        $oDebt->setStatus($aDados['status'] ?? PaidUnpaid::UNPAID);
         $oDebt->setActive(TrueOrFalse::TRUE);
 
         return $oDebt;

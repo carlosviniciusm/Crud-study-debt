@@ -16,8 +16,8 @@ include_once 'src/view/home/header.php';
         <div class="col-md-6 offset-md-3" style="margin-top: 10px">
             <div class="form-row">
                 <div class="col-md-6 mb-3">
-                    <label for="debtor">Devedor</label><span> *</span>
-                    <select class="form-control" name="debtor" id="debtor">
+                    <label for="debtor_id">Devedor</label><span> *</span>
+                    <select class="form-control" name="debtor_id" id="debtor_id">
                         <option>Selecione um devedor</option>
                         <?php
                         /** @var Debtor $oDebtor */
