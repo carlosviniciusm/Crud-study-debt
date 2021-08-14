@@ -34,6 +34,25 @@ $(document).ready(function () {
             msg.show('slow');
         });
     });
+
+    $(document).on('click', '#debtor_delete', function (e) {
+        e.preventDefault();
+
+        var response = confirm("Tem certeza que deseja remover esse registro?");
+        if (response === true) {
+            var debtorId = $(this).data('id');
+            request = $.ajax({
+                type: "POST",
+                url: 'delete',
+                data: {id:debtorId},
+                dataType: "json"
+            });
+
+            request.done(function (response) {
+                window.location.replace("list");
+            });
+        }
+    });
 });
 
 (function () {

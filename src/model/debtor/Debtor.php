@@ -86,6 +86,15 @@ class Debtor
     }
 
     /**
+     * Inactivate debtor
+     */
+    public function inactivate(): void
+    {
+        $oDebtorDAO = new DebtorDAO();
+        $oDebtorDAO->inactivate($this);
+    }
+
+    /**
      * Create Debtor object from array
      * @param array $aDados
      * @return Debtor

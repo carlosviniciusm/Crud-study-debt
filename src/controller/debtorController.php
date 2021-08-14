@@ -82,4 +82,21 @@ class debtorController
         include_once "src/view/debtor/register.php";
     }
 
+    /**
+     * Inactivate debtor
+     * @param array $aDados
+     */
+    public function delete(array $aDados)
+    {
+        $aReturn = ['status' => true];
+        try {
+            $oDebtor = (new DebtorDAO())->find($aDados['id']);
+            $oDebtor->inactivate();
+        } catch (Exception $e) {
+            $aReturn = ['status' => false];
+        }
+
+        echo json_encode($aReturn);
+    }
+
 }

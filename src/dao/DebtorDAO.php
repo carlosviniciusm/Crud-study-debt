@@ -181,6 +181,33 @@ class DebtorDAO
     }
 
     /**
+     * Inactivate debtor's data in database
+     * @param Debtor $oDebtor
+     */
+    public function inactivate(Debtor $oDebtor): void {
+        $sSql = "UPDATE dbr_debtor SET dbr_active = ? WHERE dbr_id = ?";
+
+        $aDebtor[] = TrueOrFalse::FALSE;
+        $aDebtor[] = $oDebtor->getId();
+
+        try {
+            $oConnection = Connection::getConnection();
+            $oConnection->beginTransaction();
+
+            $stmt = $oConnection->prepare($sSql);
+            if (!$stmt) {
+                throw new PDOException("Error to prepare query string.");
+            }
+
+            $stmt->execute($aDebtor);
+            $oConnection->commit();
+        } catch (PDOException $e) {
+            $oConnection->rollBack();
+            throw new PDOException("Error to inactivate debtor. " . $e->getMessage());
+        }
+    }
+
+    /**
      * Delete debtor registry from database
      * @param Debtor $oDebtor
      * @return false

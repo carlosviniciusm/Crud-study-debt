@@ -37,11 +37,10 @@ include_once 'src/view/home/header.php';
                 echo "<td>{$oDebtor->getEmail()}</td>";
                 echo "<td>{$sCpfCnpj}</td>";
                 echo "<td>{$sPhone}</td>";
-                echo "<td><a href=''><i title='Adicionar dívida' class='fa fa-plus' id='add_debt'></i></a>";
-                echo "<span style='color: white'> * </span>";
+                echo "<td>";
                 echo "<a href=''><i title='Editar devedor' class='fa fa-edit' id='debtor_edit'></i></a>";
                 echo "<span style='color: white'> * </span>";
-                echo "<a href=''><i class='fa fa-trash' id='debtor_delete'></i></a></td>";
+                echo "<a href='#' id='debtor_delete' data-id='{$oDebtor->getId()}'><i class='fa fa-trash'></i></a></td>";
                 echo "</tr></div>";
             }
         } else { ?>
@@ -53,4 +52,5 @@ echo "<div class='msg-empty'>Não existe nenhum devedor cadastrado.</div> "; }
 ?>
 </body>
 <?php include_once 'src/view/home/footer.php'; ?>
+<script src="<?php Utils::importJs('debtor', 'debtor'); ?>"></script>
 </html>
