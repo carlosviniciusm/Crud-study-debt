@@ -27,7 +27,7 @@ class Router
         $sController = "src\Controller\\" . $_REQUEST['controller'] . "Controller";
         if (class_exists($sController)) {
             $this->oEntity = new $sController($_REQUEST);
-            $this->sAction = !empty($_REQUEST['action']) ? $_REQUEST['action'] : "index" ;
+            $this->sAction = !empty($_REQUEST['action']) ? $_REQUEST['action'] : "list" ;
 
             if (method_exists($sController, $this->sAction)) {
                 $this->aData = $_REQUEST;
