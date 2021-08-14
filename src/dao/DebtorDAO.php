@@ -9,6 +9,7 @@ use PDO;
 use src\model\debtor\Debtor;
 use http\Exception\RuntimeException;
 use PDOException;
+use src\model\debtor\DebtorList;
 
 /**
  * Class DebtorDAO
@@ -16,6 +17,33 @@ use PDOException;
  */
 class DebtorDAO
 {
+    /**
+     * Get debtor registry(s)
+     * @param string $sSql
+     * @return array
+     */
+    public static function getDebtor(string $sSql): array
+    {
+        try {
+            $oConnection = Connection::getConnection();
+
+            $stmt = $oConnection->prepare($sSql);
+
+            if (!$stmt) {
+                throw new PDOException();
+            }
+
+            $iTrue = TrueOrFalse::TRUE;
+            $stmt->bindParam(1, $iTrue);
+
+            $stmt->execute();
+            $aaDebtor = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new RuntimeException("Error when consulting debtor.", 500, $e);
+        }
+
+        return $aaDebtor;
+    }
 
     /**
      * @param int $iId
@@ -79,9 +107,9 @@ class DebtorDAO
      * @param Debtor $oDebtor
      */
     public function save(Debtor $oDebtor): void {
-        $sSql = "INSERT INTO dbr_debtor(dbr_name, dbr_email, dbr_cpf_cnpj, dbr_birthdate, dbr_phone_number, dbr_zipcode,
+        $sSql = "INSERT INTO dbr_debtor(dbr_name, dbr_email, dbr_cpf_cnpj, dbr_phone_number, dbr_zipcode,
                        dbr_address, dbr_number, dbr_complement, dbr_neighborhood, dbr_city, dbr_state, dbr_status,
-                       dbr_active, dbr_created)
+                       dbr_active, dbr_birthdate, dbr_created)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         $oDebtor->setCreated(new DateTimeImmutable('NOW'));
@@ -117,7 +145,6 @@ class DebtorDAO
                     SET dbr_name = ?,
                     dbr_email = ?,
                     dbr_cpf_cnpj = ?,
-                    dbr_birthdate = ?,
                     dbr_phone_number = ?,
                     dbr_zipcode = ?,
                     dbr_address = ?,
@@ -128,6 +155,7 @@ class DebtorDAO
                     dbr_state = ?,
                     dbr_status = ?,
                     dbr_active = ?,
+                    dbr_birthdate = ?,
                     dbr_updated = ?
                 WHERE dbr_id = ?";
 
@@ -192,5 +220,39 @@ class DebtorDAO
             throw new PDOException();
         }
         return $stmt;
+    }
+
+    /**
+     * Find all registrys
+     * @return DebtorList
+     */
+    public static function findAllActive(): DebtorList
+    {
+        $sSql = "SELECT * FROM dbr_debtor WHERE dbr_active = ?";
+
+        $aaDebtor = self::getDebtor($sSql);
+
+        if (empty($aaDebtor)) {
+            return new DebtorList();
+        }
+
+        return DebtorList::createFromArray($aaDebtor);
+    }
+
+    /**
+     * Find debtor's registry to show on view
+     * @return DebtorList
+     */
+    public static function findDebtorAjax(): DebtorList
+    {
+        $sSql = "SELECT dbr_id, dbr_name FROM dbr_debtor WHERE dbr_active = ?";
+
+        $aaDebtor = self::getDebtor($sSql);
+
+        if (empty($aaDebtor)) {
+            return new DebtorList();
+        }
+
+        return DebtorList::createFromArray($aaDebtor);
     }
 }
