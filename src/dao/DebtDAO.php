@@ -5,10 +5,11 @@ use DateTimeImmutable;
 use Exception;
 use framework\system\Connection;
 use framework\utils\constants\TrueOrFalse;
-use http\Exception\RuntimeException;
 use PDO;
 use PDOException;
+use RuntimeException;
 use src\model\debt\Debt;
+use src\model\debt\DebtList;
 
 /**
  * Class DebtDAO
@@ -153,5 +154,42 @@ class DebtDAO
             throw new PDOException();
         }
         return $stmt;
+    }
+
+    /**
+     * Find all active registry
+     * @return DebtList
+     */
+    public static function findAllActive()
+    {
+        $sSql = "SELECT dbr.dbr_name, dbt.* FROM dbt_debt dbt
+                    INNER JOIN dbr_debtor dbr on dbt.dbr_id = dbr.dbr_id 
+                        WHERE dbt_active = ?";
+
+        try {
+            $oConnection = Connection::getConnection();
+
+            $stmt = $oConnection->prepare($sSql);
+
+            if (!$stmt) {
+                throw new PDOException();
+            }
+
+            $iTrue = TrueOrFalse::TRUE;
+            $stmt->bindParam(1, $iTrue);
+
+            $stmt->execute();
+            $aaDebt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new RuntimeException("Error when consulting debtor.", 500, $e);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+
+        if (empty($aaDebt)) {
+            return new DebtList();
+        }
+
+        return DebtList::createFromArray($aaDebt);
     }
 }
