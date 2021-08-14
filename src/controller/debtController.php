@@ -63,4 +63,21 @@ class debtController
         include_once "src/view/debt/register.php";
     }
 
+    /**
+     * Inactivate debt
+     * @param array $aDados
+     */
+    public function delete(array $aDados)
+    {
+        $aReturn = ['status' => true];
+        try {
+            $oDebt = (new DebtDAO())->find($aDados['id']);
+            $oDebt->inactivate();
+        } catch (Exception $e) {
+            $aReturn = ['status' => false];
+        }
+
+        echo json_encode($aReturn);
+    }
+
 }

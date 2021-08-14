@@ -80,6 +80,15 @@ class Debt
     }
 
     /**
+     * Inactivate debt's data from database
+     */
+    public function inactivate(): void
+    {
+        $oDebtDAO = new DebtDAO();
+        $oDebtDAO->inactivate($this);
+    }
+
+    /**
      * Update debt's data in database
      */
     public function update(array $aDadosUpdate): void

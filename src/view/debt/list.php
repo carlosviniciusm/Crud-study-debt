@@ -41,7 +41,7 @@ include_once 'src/view/home/header.php';
                 echo "<td>";
                 echo "<a href=''><i title='Editar devedor' class='fa fa-edit' id='debtor_edit'></i></a>";
                 echo "<span style='color: white'> * </span>";
-                echo "<a href=''><i class='fa fa-trash' id='debtor_delete'></i></a></td>";
+                echo "<a href='#' id='debt_delete' data-id='{$oDebt->getId()}'><i class='fa fa-trash'></i></a></td>";
                 echo "</tr></div>";
             }
         } else {
@@ -55,4 +55,5 @@ echo "<div class='msg-empty'>Não existe nenhuma dívida cadastrada.</div> ";
 ?>
 </body>
 <?php include_once 'src/view/home/footer.php'; ?>
+<script src="<?php Utils::importJs('debt', 'debt'); ?>"></script>
 </html>

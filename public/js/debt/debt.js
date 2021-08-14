@@ -33,6 +33,25 @@ $(document).ready(function () {
             msg.show('slow');
         });
     });
+
+    $(document).on('click', '#debt_delete', function (e) {
+        e.preventDefault();
+
+        var response = confirm("Tem certeza que deseja remover esse registro?");
+        if (response === true) {
+            var debtId = $(this).data('id');
+            request = $.ajax({
+                type: "POST",
+                url: 'delete',
+                data: {id:debtId},
+                dataType: "json"
+            });
+
+            request.done(function (response) {
+                window.location.replace("list");
+            });
+        }
+    });
 });
 
 (function () {

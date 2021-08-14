@@ -115,6 +115,33 @@ class DebtDAO
     }
 
     /**
+     * Inactivate debt's data in database
+     * @param Debt $oDebt
+     */
+    public function inactivate(Debt $oDebt): void {
+        $sSql = "UPDATE dbt_debt SET dbt_active = ? WHERE dbt_id = ?";
+
+        $aDebt[] = TrueOrFalse::FALSE;
+        $aDebt[] = $oDebt->getId();
+
+        try {
+            $oConnection = Connection::getConnection();
+            $oConnection->beginTransaction();
+
+            $stmt = $oConnection->prepare($sSql);
+            if (!$stmt) {
+                throw new PDOException("Error to prepare query string.");
+            }
+
+            $stmt->execute($aDebt);
+            $oConnection->commit();
+        } catch (PDOException $e) {
+            $oConnection->rollBack();
+            throw new PDOException("Error to inactivate debt. " . $e->getMessage());
+        }
+    }
+
+    /**
      * Delete debt registry from database
      * @param Debt $oDebt
      * @return void
