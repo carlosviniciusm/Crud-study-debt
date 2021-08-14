@@ -42,7 +42,6 @@ class Router
         }
 
         var_dump('Entity: ', $this->oEntity);
-        die();
         $sAction = $this->sAction;
         $this->oEntity->$sAction($this->aData);
     }
