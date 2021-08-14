@@ -14,7 +14,7 @@ class homeController
      * @author Carlos Vinicius cvmm321@gmail.com
      * @since 1.0.0
      */
-    public function index(array $aDados): void {
+    public function list(array $aDados): void {
         include_once "src/view/home/home.php";
     }
 }
