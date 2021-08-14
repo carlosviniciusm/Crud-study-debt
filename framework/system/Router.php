@@ -24,7 +24,7 @@ class Router
             $_REQUEST['controller'] = "home";
         }
 
-        $sController = "src\Controller\\" . $_REQUEST['controller'] . "Controller";
+        $sController = "src\controller\\" . $_REQUEST['controller'] . "Controller";
         var_dump('Controller:',$sController);
         if (class_exists($sController)) {
             var_dump('Classe existe!');
