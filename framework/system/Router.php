@@ -33,6 +33,10 @@ class Router
                 $this->aData = $_REQUEST;
             }
         }
+
+        var_dump($_REQUEST);
+        var_dump($sController);
+        var_dump($this->sAction);
     }
 
     /**
