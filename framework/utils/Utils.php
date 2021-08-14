@@ -25,7 +25,7 @@ class Utils
     public static function importJs(string $sFile, string $sModule = ''): void
     {
         $sModule = !empty($sModule) ? $sModule : 'general';
-        echo '../public/js/'.$sModule.'/'.$sFile.'.js';
+        echo '/receiveit/public/js/'.$sModule.'/'.$sFile.'.js';
     }
 
     /**
@@ -36,7 +36,6 @@ class Utils
     public static function importCss(string $sFile, string $sModule = ''): void
     {
         $sModule = !empty($sModule) ? $sModule : 'general';
-        echo '../public/css/'.$sModule.'/'.$sFile.'.css';
+        echo '/receiveit/public/css/'.$sModule.'/'.$sFile.'.css';
     }
-    
 }
