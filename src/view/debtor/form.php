@@ -70,7 +70,7 @@ include_once 'src/view/home/header.php';
                     <label for="neighborhood">Bairro</label><span> *</span>
                     <input type="text" class="form-control" id="neighborhood" name="neighborhood" required>
                     <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Cidade é obrigatório</div>
+                    <div class="invalid-feedback">Bairro é obrigatório</div>
                 </div>
 
                 <div class="col-md-4 mb-3">
