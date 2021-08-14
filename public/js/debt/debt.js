@@ -18,13 +18,13 @@ $(document).ready(function () {
                 msg.removeClass('msg-error');
                 msg.addClass('msg-success');
                 setTimeout(function () {
-                    window.location.replace("list");
+                    window.location.replace(response.path);
                 }, 4000);
             } else {
                 msg.removeClass('msg-success');
                 msg.addClass('msg-error');
                 setTimeout(function () {
-                    window.location.replace("register");
+                    window.location.replace(response.path);
                 }, 4000);
             }
 

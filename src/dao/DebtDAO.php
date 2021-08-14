@@ -50,11 +50,10 @@ class DebtDAO
      * @param Debt $oDebt
      */
     public function save(Debt $oDebt): void {
-        $sSql = "INSERT INTO dbt_debt(dbr_id, dbt_description, dbt_amount, dbt_due_date, 
-                                        dbt_status, dbt_active, dbt_created) VALUES (?,?,?,?,?,?,?)";
+        $sSql = "INSERT INTO dbt_debt(dbr_id, dbt_description, dbt_amount,
+                                        dbt_status, dbt_due_date, dbt_created) VALUES (?,?,?,?,?,?)";
 
         $oDebt->setCreated(new DateTimeImmutable('NOW'));
-        $oDebt->setActive(TrueOrFalse::TRUE);
 
         $aDebt = $oDebt->toArray();
 
@@ -86,9 +85,8 @@ class DebtDAO
                     SET dbr_id = ?,
                     dbt_description = ?,
                     dbt_amount = ?,
-                    dbt_due_date = ?,
                     dbt_status = ?,
-                    dbt_active = ?,
+                    dbt_due_date = ?,
                     dbt_updated = ?
                 WHERE dbt_id = ?";
 

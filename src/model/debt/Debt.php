@@ -5,6 +5,7 @@ use DateTimeImmutable;
 use framework\exceptions\InvalidAttributeException;
 use framework\utils\constants\PaidUnpaid;
 use framework\utils\constants\TrueOrFalse;
+use framework\utils\Utils;
 use src\dao\DebtDAO;
 
 /**
@@ -19,8 +20,8 @@ class Debt
     private $iDebtorId;
     /** @var string $sDescription */
     private $sDescription;
-    /** @var float $oAmount */
-    private $oAmount;
+    /** @var float $fAmount */
+    private $fAmount;
     /** @var DateTimeImmutable $oDueDate */
     private $oDueDate;
     /** @var int $iStatus */
@@ -106,8 +107,13 @@ class Debt
         if (!empty($aDados['description'])) {
             $this->setDescription($aDados['description']);
         }
+        if (!empty($aDados['debtor_id'])) {
+            $this->setDebtorId($aDados['debtor_id']);
+        }
         if (!empty($aDados['amount'])) {
-            $this->setAmount($aDados['amount']);
+            $sAmount = Utils::removeCaracther($aDados['amount']);
+            $sAmount = substr_replace($sAmount, '.', -2, 0);
+            $this->setAmount($sAmount);
         }
         if (!empty($aDados['due_date'])) {
             $oDueDate = DateTimeImmutable::createFromFormat('d/m/Y', $aDados['due_date']);
@@ -115,9 +121,6 @@ class Debt
         }
         if (!is_null($aDados['status'])) {
             $this->setStatus($aDados['status']);
-        }
-        if (!empty($aDados['active'])) {
-            $this->setActive($aDados['active']);
         }
     }
 
@@ -169,16 +172,21 @@ class Debt
     public function toArray()
     {
         $aDebt = [
-            $this->getDebtorId(),
-            $this->getDescription(),
-            $this->getAmount(),
-            $this->getDueDate()->format('Y-m-d'),
-            $this->getStatus(),
-            $this->getActive(),
-            $this->getCreated()->format('Y-m-d H:i:s')
+            $this->iDebtorId,
+            $this->sDescription,
+            $this->fAmount,
+            $this->iStatus
         ];
 
-        if (!is_null($this->getUpdated())) {
+        if (!is_null($this->oDueDate)) {
+            $aDebt[] = $this->oDueDate->format('Y-m-d');
+        }
+
+        if (!is_null($this->oCreated)) {
+            $aDebt[] = $this->getCreated()->format('Y-m-d H:i:s');
+        }
+
+        if (!is_null($this->oUpdated)) {
             $aDebt[] = $this->getUpdated()->format('Y-m-d H:i:s');
         }
 
@@ -224,7 +232,7 @@ class Debt
     /**
      * @return int
      */
-    public function getDebtorId(): int
+    public function getDebtorId()
     {
         return $this->iDebtorId;
     }
@@ -242,7 +250,7 @@ class Debt
      */
     public function getDescription(): string
     {
-        return $this->sDescription;
+        return $this->sDescription ?? "";
     }
 
     /**
@@ -256,23 +264,23 @@ class Debt
     /**
      * @return float
      */
-    public function getAmount(): float
+    public function getAmount()
     {
-        return $this->oAmount;
+        return $this->fAmount;
     }
 
     /**
-     * @param float $oAmount
+     * @param float $fAmount
      */
-    public function setAmount(float $oAmount): void
+    public function setAmount(float $fAmount): void
     {
-        $this->oAmount = $oAmount;
+        $this->fAmount = $fAmount;
     }
 
     /**
      * @return DateTimeImmutable
      */
-    public function getDueDate(): DateTimeImmutable
+    public function getDueDate()
     {
         return $this->oDueDate;
     }
@@ -288,7 +296,7 @@ class Debt
     /**
      * @return int
      */
-    public function getStatus(): int
+    public function getStatus()
     {
         return $this->iStatus;
     }

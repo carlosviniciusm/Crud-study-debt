@@ -2,6 +2,7 @@
 namespace src\controller;
 
 use Exception;
+use framework\exceptions\InvalidAttributeException;
 use src\dao\DebtDAO;
 use src\dao\DebtorDAO;
 use src\model\debt\Debt;
@@ -45,9 +46,9 @@ class debtController
         try {
             $oDebt = Debt::createFromRequest($aDados);
             $oDebt->save();
-            $aReturn = ['msg' => 'O cadastro da dívida foi realizado com sucesso!', 'status' => true];
+            $aReturn = ['msg' => 'O cadastro da dívida foi realizado com sucesso!', 'status' => true, 'path' => 'list'];
         } catch (Exception $e) {
-            $aReturn = ['msg' => 'Erro ao salvar a dívida: '.$e->getMessage(), 'status' => false];
+            $aReturn = ['msg' => 'Erro ao salvar a dívida: '.$e->getMessage(), 'status' => false, 'path' => 'register'];
         }
 
         echo json_encode($aReturn);
@@ -58,9 +59,39 @@ class debtController
      */
     public function register()
     {
+        $oDebt = new Debt();
         $loDebtor = DebtorDAO::findDebtorAjax();
+        include_once "src/view/debt/form.php";
+    }
 
-        include_once "src/view/debt/register.php";
+    /**
+     * @param array $aDados
+     */
+    public function edit(array $aDados): void
+    {
+        $loDebtor = DebtorDAO::findDebtorAjax();
+        $oDebt = (new DebtDAO())->find($aDados['id']);
+        include_once "src/view/debt/form.php";
+    }
+
+    /**
+     * @param array $aDados
+     */
+    public function update(array $aDados): void
+    {
+        try {
+            if (empty($aDados['id'])) {
+                throw new InvalidAttributeException('Debt\'s id is empty.');
+            }
+
+            $oDebt = (new DebtDAO())->find($aDados['id']);
+            $oDebt->update($aDados);
+            $aReturn = ['msg' => 'O registro da dívida foi atualizado com sucesso!', 'status' => true, 'path' => '../list'];
+        } catch (Exception $e) {
+            $aReturn = ['msg' => 'Erro ao atualizar o registro: '.$e->getMessage(), 'status' => false, 'path' => '../register'];
+        }
+
+        echo json_encode($aReturn);
     }
 
     /**
