@@ -31,6 +31,8 @@ class Debt
     private $oCreated;
     /** @var DateTimeImmutable $oUpdated */
     private $oUpdated;
+    /** @var string $sDebtorName */
+    private $sDebtorName;
 
     /**
      * Create object based on request data
@@ -44,7 +46,7 @@ class Debt
 
         $oDebt->validate($aDados);
 
-        $oDebt->setDebtorId($aDados['debtor_id']);
+        $oDebt->setDebtorId(intval($aDados['debtor']));
         $oDebt->setDescription($aDados['description']);
 
         $oDebt->setAmount(floatval($aDados['amount']));
@@ -53,7 +55,7 @@ class Debt
         $oDebt->setDueDate($oDueDate);
 
         $oDebt->setCreated((new DateTimeImmutable('NOW')));
-        $oDebt->setStatus(PaidUnpaid::UNPAID);
+        $oDebt->setStatus($aDados['status']);
         $oDebt->setActive(TrueOrFalse::TRUE);
 
         return $oDebt;
@@ -119,6 +121,9 @@ class Debt
     {
         $oDebt = new Debt();
 
+        if (isset($aDados['dbr_name'])) {
+            $oDebt->setDebtorName($aDados['dbr_name']);
+        }
         $oDebt->setId($aDados['dbt_id']);
         $oDebt->setDescription($aDados['dbt_description']);
         $oDebt->setDebtorId($aDados['dbr_id']);
@@ -178,11 +183,7 @@ class Debt
      */
     private function validate(array $aDados)
     {
-        if (is_null($aDados['debtor_id'])) {
-            throw new InvalidAttributeException('Name is empty.');
-        }
-
-        if (empty($aDados['description'])) {
+        if (!isset($aDados['description'])) {
             throw new InvalidAttributeException('Name is empty.');
         }
 
@@ -190,7 +191,7 @@ class Debt
             throw new InvalidAttributeException('Name is empty.');
         }
 
-        if (empty($aDados['due_date'])) {
+        if (!isset($aDados['due_date'])) {
             throw new InvalidAttributeException('Name is empty.');
         }
     }
@@ -337,5 +338,18 @@ class Debt
     public function setUpdated(DateTimeImmutable $oUpdated): void
     {
         $this->oUpdated = $oUpdated;
+    }
+
+    public function setDebtorName(string $sDebtorName)
+    {
+        $this->sDebtorName = $sDebtorName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDebtorName(): string
+    {
+        return $this->sDebtorName ?? "";
     }
 }
