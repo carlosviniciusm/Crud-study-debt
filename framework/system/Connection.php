@@ -32,9 +32,9 @@ class Connection extends PDO
      */
     protected static function create(): PDO
     {
-        $sDrive = 'mysql:host=localhost;dbname=receiveit';
-        $sUser = 'root';
-        $sPass = 'root';
+        $sDrive = 'mysql:host=eu-cdbr-west-01.cleardb.com;dbname=heroku_12c5293754552ce';
+        $sUser = 'ba54d2b043c33e';
+        $sPass = '85358fdd';
         $aPDO = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
         try {
             self::$oPdo = new PDO($sDrive, $sUser, $sPass, $aPDO);
