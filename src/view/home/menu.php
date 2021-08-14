@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div>
-        <a href="">
+        <a href="/receiveit/home/index">
             <span style="color: white">Gerenciador de dívidas | </span>
         </a>
     </div>
@@ -9,8 +9,8 @@
             Devedores
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="register">Cadastrar</a>
-            <a class="dropdown-item" href="#">Listar</a>
+            <a class="dropdown-item" href="/receiveit/debtor/register">Cadastrar</a>
+            <a class="dropdown-item" href="/receiveit/debtor/list">Listar</a>
         </div>
     </div>
     <div class="dropdown">
@@ -18,8 +18,8 @@
             Dívidas
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Cadastrar</a>
-            <a class="dropdown-item" href="#">Listar</a>
+            <a class="dropdown-item" href="/receiveit/debt/register">Cadastrar</a>
+            <a class="dropdown-item" href="/receiveit/debt/list">Listar</a>
         </div>
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
