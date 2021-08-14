@@ -44,13 +44,4 @@ class Router
         $this->oEntity->$sAction($this->aData);
     }
 
-    /**
-     * @param string $sPath
-     */
-    public static function redirect(string $sPath)
-    {
-        header("Location: ".$sPath);
-        die();
-    }
-
 }
