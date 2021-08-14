@@ -34,9 +34,9 @@ class Router
             }
         }
 
-        var_dump($_REQUEST);
-        var_dump($sController);
-        var_dump($this->sAction);
+        if (is_null($this->sAction)) {
+            $this->sAction = 'list';
+        }
     }
 
     /**
