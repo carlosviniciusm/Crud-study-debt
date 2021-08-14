@@ -378,8 +378,8 @@ class DebtorTest extends TestCase
         $this->assertTrue($oDebtorUpdated->getEmail() == 'cvmm321atualizado@gmail.com');
         $this->assertTrue($oDebtorUpdated->getCpfCnpj() == '14725836905');
         $this->assertTrue($oDebtorUpdated->getBirthdate()->format('d/m/Y') == '01/01/2000');
-        $this->assertTrue($oDebtorUpdated->getPhoneNumber() == '(79) 9 8888-8888');
-        $this->assertTrue($oDebtorUpdated->getZipcode() == '11111-111');
+        $this->assertTrue($oDebtorUpdated->getPhoneNumber() == '79988888888');
+        $this->assertTrue($oDebtorUpdated->getZipcode() == '11111111');
         $this->assertTrue($oDebtorUpdated->getAddress() == 'Rua Atualização');
         $this->assertTrue($oDebtorUpdated->getNumber() == '005544');
         $this->assertTrue($oDebtorUpdated->getComplement() == 'Conjunto Atualização');

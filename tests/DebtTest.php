@@ -30,8 +30,7 @@ class DebtTest extends TestCase
             'description' => "Testando atualização",
             'amount' => 111.11,
             'due_date' => '05/05/2005',
-            'status' => '0',
-            'active' => '1',
+            'status' => '0'
         ];
 
         $oDebt->update($aDebt);
