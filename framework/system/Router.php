@@ -25,14 +25,11 @@ class Router
         }
 
         $sController = "src\controller\\" . $_REQUEST['controller'] . "Controller";
-        var_dump('Controller:',$sController);
         if (class_exists($sController)) {
-            var_dump('Classe existe!');
             $this->oEntity = new $sController($_REQUEST);
             $this->sAction = !empty($_REQUEST['action']) ? $_REQUEST['action'] : "list" ;
 
             if (method_exists($sController, $this->sAction)) {
-                var_dump('Método existe!');
                 $this->aData = $_REQUEST;
             }
         }
@@ -41,9 +38,14 @@ class Router
             $this->sAction = 'list';
         }
 
-        var_dump('Entity: ', $this->oEntity);
+    }
+
+    /**
+     * Route
+     */
+    public function route()
+    {
         $sAction = $this->sAction;
         $this->oEntity->$sAction($this->aData);
     }
-
 }
